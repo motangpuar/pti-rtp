@@ -1,0 +1,38 @@
+---
+- hosts: localhost
+  connection: local
+  gather_facts: true
+  vars:
+    ocloud_infra: vm
+    ocloud_platform: okd
+    ocloud_cluster_name: "ocloud-vm-bmw"
+    ocloud_domain_name: "lab.local"
+    ocloud_staging_dir:
+      path: "/root/ocloud.running/"
+      #path: "/root/ocloud.2025-11-16.amk4fyrb"
+    ocloud_kubeconfig: "/root/ocloud.running/cfg/auth/kubeconfig"
+    ocloud_platform_okd_pull_secret: '{"auths":{"fake":{"auth":"aWQ6cGFzcwo="}}}'
+  tasks:
+    - name: Include Stolostron
+      ansible.builtin.import_role:
+        name: "ocloud_platform_stolostron"
+
+    - name: Include platform role - SiteConfig
+      ansible.builtin.import_role:
+        name: "ocloud_platform_siteconfig"
+      
+    - name: Include platform role - ClusterGroupUpgrades
+      ansible.builtin.import_role:
+        name: "ocloud_platform_cgu"
+      
+    - name: Include platform role - MultiClusterObservability
+      ansible.builtin.import_role:
+        name: "ocloud_platform_mco"
+      
+    - name: Include platform role - oran-o2ims
+      ansible.builtin.import_role:
+        name: "ocloud_platform_o2ims"
+      
+    - name: Include platform role - oran-hwmgr-plugin
+      ansible.builtin.import_role:
+        name: "ocloud_platform_hwmgr"
