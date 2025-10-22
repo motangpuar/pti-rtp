@@ -3,36 +3,30 @@ ocloud_infra: vm
 ocloud_platform: okd
 ocloud_topology: aio
 ocloud_platform_okd_ssh_pubkey: "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIPIcPqz+nwl7oSwvGdnycwHyGaZIDIZugA/TUQDlSpvg ymarselino@newton.lab"
-ocloud_cluster_name: "ocloud-vm-okd-aio"
+ocloud_cluster_name: "ocloud-vm-bmw"
 # Uncomment to override default release from ocloud_platform_okd role:
 #ocloud_platform_okd_release: ~
 # Add these required variables:
 ocloud_domain_name: "lab.local"  # Your domain
 
 # KVM Nat
-ocloud_net_cidr: "192.168.100.0/24"  # Your VM network CIDR
+# ocloud_net_cidr: "192.168.100.0/24"  # Your VM network CIDR
+
+# BMW Bridge
+ocloud_network_mode: "bridge"  
+ocloud_net_bridge: "bridge0"
+ocloud_net_name: "br0-okd"
+ocloud_rendezvous_ip: "192.168.8.105"
+
+ocloud_net_cidr: "192.168.8.0/24"
 ocloud_cluster_net_cidr: "10.128.0.0/14"  # Pod network
 ocloud_cluster_net_hostprefix: 23
 ocloud_service_net_cidr: "172.30.0.0/16"  # Service network
 ocloud_network_type: "OVNKubernetes"
 
-# BMW Bridge
-# network_config:
-#   interfaces:
-#     - name: enp1s0  # Interface inside VM
-#       type: ethernet
-#       state: up
-#       ipv4:
-#         enabled: true
-#         dhcp: true
-# 
-# ocloud_net_cidr: "192.168.8.0/24"
-# ocloud_libvirt_network: "br0"  # Use bridged network instead of NAT
-
 # DNS servers
 ocloud_dns_servers:
-  - "8.8.8.8"
-  - "1.1.1.1"
+  - "192.168.8.72"
 
 # Optional NTP servers
 ocloud_ntp_servers:

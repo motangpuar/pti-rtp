@@ -3,10 +3,10 @@ apiVersion: v1
 baseDomain: {{ ocloud_domain_name }}
 controlPlane:
   name: master
-  replicas: {{ groups['ocloud'] | map('extract', hostvars, 'role') | select('equalto', 'master') | length }}
+  replicas: {{ groups['ocloud'] | map('extract', hostvars, 'role') | select('equalto', 'master') | list | length }}
 compute:
   - name: worker
-    replicas: {{ groups['ocloud'] | map('extract', hostvars, 'role') | select('equalto', 'worker') | length }}
+    replicas: {{ groups['ocloud'] | map('extract', hostvars, 'role') | select('equalto', 'worker') | list | length }}
 metadata:
   name: {{ ocloud_cluster_name }}
 networking:

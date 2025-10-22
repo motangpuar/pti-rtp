@@ -6,7 +6,7 @@ metadata:
 {% if hostvars[groups['ocloud'][0]]['ocloud_infra'] == "baremetal" %}
 rendezvousIP: {{ hostvars[groups['ocloud'][0]]['network_config']['interfaces'][0]['ipv4']['address'][0]['ip'] }}
 {% else %}
-rendezvousIP: {{ ocloud_net_cidr | ansible.utils.ipmath(11) }}
+rendezvousIP: {{ ocloud_rendezvous_ip | default(ocloud_net_cidr | ansible.utils.ipmath(11))}}
 {% endif %}
 {% if ocloud_ntp_servers is defined and ocloud_ntp_servers | length > 0 %}
 additionalNTPSources:
@@ -14,7 +14,7 @@ additionalNTPSources:
 - {{ ntp_server }}
 {% endfor %}
 {% endif %}
-{% if groups['ocloud'] | map('extract', hostvars, 'ocloud_infra') | select('equalto', 'baremetal') | length > 0 %}
+{% if groups['ocloud'] | map('extract', hostvars, 'ocloud_infra') | select('equalto', 'baremetal') | list | length > 0 %}
 hosts:
 {% endif %}
 {% for hostname in groups['ocloud'] %}
